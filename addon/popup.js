@@ -141,7 +141,7 @@ class App extends React.PureComponent {
     this.getListViewQuery = this.getListViewQuery.bind(this);
     this.hideToast = this.hideToast.bind(this);
   }
-  async onContextRecordChange(e) {
+  onContextRecordChange(e) {
     let {sfHost} = this.props;
     let limitsArg = new URLSearchParams();
     let importArg = new URLSearchParams();
