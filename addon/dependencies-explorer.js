@@ -2494,44 +2494,6 @@ class App extends React.Component {
           ),
           h("div", {className: "dep-buttons-left"},
             h("button", {
-              onClick: () => model.downloadPackageXml(),
-              disabled: !model.dependencyResults || !model.dependencyResults.dependsOn.length || model.currentFilter !== "dependsOn",
-              className: "slds-button slds-button_neutral",
-              title: "Generate Package.xml file"
-            },
-            h("span", {className: ""},
-              h("svg", {
-                viewBox: "0 0 520 520",
-                width: "18",
-                height: "18",
-                fill: "currentColor",
-                className: "dep-icon-inline-margin"
-              },
-              h("use", {"xlinkHref": "symbols.svg#overflow"})
-              )
-            ),
-            "Generate Package.xml"
-            ),
-            h("button", {
-              onClick: () => model.exportDependencies(),
-              disabled: !model.dependencyResults || (!model.dependencyResults.dependsOn.length && !model.dependencyResults.dependedOnBy.length),
-              className: "slds-button slds-button_neutral",
-              title: "Export summary as text file"
-            },
-            h("span", {className: ""},
-              h("svg", {
-                viewBox: "0 0 520 520",
-                width: "18",
-                height: "18",
-                fill: "currentColor",
-                className: "dep-icon-inline-margin"
-              },
-              h("use", {"xlinkHref": "symbols.svg#internal_share"})
-              )
-            ),
-            "Export Summary"
-            ),
-            h("button", {
               onClick: () => model.toggleJsonDebug(),
               disabled:
                 !model.dependencyResults

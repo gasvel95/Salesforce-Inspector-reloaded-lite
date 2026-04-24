@@ -1041,20 +1041,11 @@ class App extends React.Component {
               )
             ),
             h("div", {className: "flex-right"},
-              h("button", {
-                onClick: this.onStartClick,
-                disabled: !model.deployRequestId && (!model.metadataObjects || !model.metadataObjects.some(obj => obj.selected))
-              }, "Retrieve Metadata"),
               model.statusLink ? h("button", {className: "slds-button slds-button_icon slds-button_icon-border-filled slds-m-left_x-small", onClick: () => this.refs.fileInput.click(), title: "Save status info"},
                 h("svg", {className: "slds-button__icon"},
                   h("use", {xlinkHref: "symbols.svg#info"})
                 )
               ) : null,
-              h("button", {className: "slds-button slds-button_icon slds-button_icon-border-filled slds-m-left_x-small", onClick: () => this.downloadXml(), title: "Download package.xml"},
-                h("svg", {className: "slds-button__icon"},
-                  h("use", {xlinkHref: "symbols.svg#download"})
-                )
-              ),
               h("button", {className: "slds-button slds-button_icon slds-button_icon-border-filled slds-m-left_x-small", onClick: () => this.refs.fileInput.click(), title: "Import package.xml or package zip file"},
                 h("svg", {className: "slds-button__icon"},
                   h("use", {xlinkHref: "symbols.svg#upload"})
@@ -1149,7 +1140,7 @@ class App extends React.Component {
                   h("br", {}),
                   h("ul", {className: "slds-accordion"},
                     model.metadataObjects.map(metadataObject => h(ObjectSelector, {metadataObject, model, onViewMetadata: this.onViewMetadata, key: metadataObject.xmlName}))),
-                  !model.deployRequestId ? h("p", {}, "Select what to download above, and then click the button below. If downloading fails, try unchecking some of the boxes.") : null
+                  !model.deployRequestId ? h("p", {}, "Select metadata above to view the package.xml.") : null
                 ),
                 h("div", {className: "slds-col"},
                   h("pre", {className: "reset-margin"},

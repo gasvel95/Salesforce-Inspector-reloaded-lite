@@ -121,7 +121,6 @@ class App extends React.PureComponent {
       apiVersionInput: apiVersion,
       isFieldsPresent: false,
       isPopupExpanded: false, // Track if popup is expanded/active
-      exportHref: "data-export.html?" + hostArg,
       importHref: "data-import.html?" + hostArg,
       eventMonitorHref: "event-monitor.html?" + hostArg,
       fieldCreatorHref: "field-creator.html?" + hostArg,
@@ -130,9 +129,6 @@ class App extends React.PureComponent {
       latestNotesViewed:
         localStorage.getItem("latestReleaseNotesVersionViewed")
           === this.props.addonVersion || browser.extension.inIncognitoContext,
-      useLegacyDownloadMetadata: JSON.parse(
-        localStorage.getItem("useLegacyDlMetadata")
-      ),
       toastConfig: null, // Will hold the complete toast configuration
       showToast: false,
     };
@@ -145,29 +141,16 @@ class App extends React.PureComponent {
     this.getListViewQuery = this.getListViewQuery.bind(this);
     this.hideToast = this.hideToast.bind(this);
   }
-  async onContextRecordChange(e) {
+  onContextRecordChange(e) {
     let {sfHost} = this.props;
     let limitsArg = new URLSearchParams();
-    let exportArg = new URLSearchParams();
     let importArg = new URLSearchParams();
-    exportArg.set("host", sfHost);
     importArg.set("host", sfHost);
     limitsArg.set("host", sfHost);
-    if (e.contextSobjectListview) {
-      const listViewQuery = await this.getListViewQuery(e.contextSobject, e.contextSobjectListview);
-      if (listViewQuery) {
-        exportArg.set("query", listViewQuery);
-      }
-    } else if (e.contextSobject && localStorage.getItem("useSObjectContextOnDataImportLink") !== "false") {
-      let query = "SELECT Id FROM " + e.contextSobject;
-      if (e.contextRecordId && (e.contextRecordId.length == 15 || e.contextRecordId.length == 18)) {
-        query += " WHERE Id = '" + e.contextRecordId + "'";
-      }
-      exportArg.set("query", query);
+    if (e.contextSobject && localStorage.getItem("useSObjectContextOnDataImportLink") !== "false") {
       importArg.set("sobject", e.contextSobject);
     }
     this.setState({
-      exportHref: "data-export.html?" + exportArg,
       importHref: "data-import.html?" + importArg,
       eventMonitorHref: "event-monitor.html?" + importArg,
       limitsHref: "limits.html?" + limitsArg,
@@ -264,11 +247,9 @@ class App extends React.PureComponent {
       a: ["all", "clickAllDataBtn"],
       f: ["all", "clickShowFieldAPINameBtn"],
       n: ["all", "clickNewBtn"],
-      e: ["click", "dataExportBtn"],
       i: ["click", "dataImportBtn"],
       l: ["click", "limitsBtn"],
       t: ["click", "fieldCreatorBtn"],
-      d: ["click", "metaRetrieveBtn"],
       x: ["click", "apiExploreBtn"],
       h: ["click", "homeBtn"],
       p: ["click", "optionsBtn"],
@@ -378,7 +359,6 @@ class App extends React.PureComponent {
       isInSetup,
       contextUrl,
       apiVersionInput,
-      exportHref,
       importHref,
       eventMonitorHref,
       fieldCreatorHref,
@@ -386,7 +366,6 @@ class App extends React.PureComponent {
       apiStatisticsHref,
       isFieldsPresent,
       latestNotesViewed,
-      useLegacyDownloadMetadata,
     } = this.state;
     let hostArg = new URLSearchParams();
     hostArg.set("host", sfHost);
@@ -510,24 +489,7 @@ class App extends React.PureComponent {
               "div",
               {
                 className:
-                "slds-col slds-size_1-of-2 slds-p-horizontal_xx-small slds-m-bottom_xx-small",
-              },
-              h(
-                "a",
-                {
-                  ref: "dataExportBtn",
-                  href: exportHref,
-                  target: linkTarget,
-                  className: "page-button slds-button slds-button_neutral",
-                },
-                h("span", {}, "Data ", h("u", {}, "E"), "xport")
-              )
-            ),
-            h(
-              "div",
-              {
-                className:
-                "slds-col slds-size_1-of-2 slds-p-horizontal_xx-small slds-m-bottom_xx-small",
+                "slds-col slds-size_1-of-1 slds-p-horizontal_xx-small slds-m-bottom_xx-small",
               },
               h(
                 "a",
@@ -560,11 +522,6 @@ class App extends React.PureComponent {
                   className: "page-button slds-button slds-button_neutral",
                 },
                 h("span", {}, "Field Crea", h("u", {}, "t"), "or")
-              )
-            ),
-            h("div", {className: "slds-col slds-size_1-of-1 slds-p-horizontal_xx-small  slds-m-bottom_xx-small"},
-              h("a", {ref: "metaRetrieveBtn", href: `metadata-retrieve${useLegacyDownloadMetadata ? "-legacy" : ""}.html?${hostArg}`, target: linkTarget, className: "page-button slds-button slds-button_neutral"},
-                h("span", {}, h("u", {}, "D"), "ownload Metadata")
               )
             ),
             h("div", {className: "slds-col slds-size_1-of-1 slds-p-horizontal_xx-small  slds-m-bottom_xx-small"},
