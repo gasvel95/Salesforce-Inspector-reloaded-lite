@@ -1943,7 +1943,6 @@ class App extends React.Component {
               disabled: !model.canCreate(),
               onClick: this.onDoCreate
             }, model.recordData ? "Clone" : "New") : null,
-            model.exportLink() ? h("a", {href: model.exportLink(), target: linkTarget, title: "Export data from this object", className: "slds-button slds-button_neutral"}, "Export") : null,
             model.objectName() ? h("a", {href: "about:blank", onClick: this.onShowObjectMetadata, className: "slds-button slds-button_neutral"}, "More") : null,
             h("div", {className: "slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open slds-button_last"},
               h("button", {className: "slds-button slds-button_icon slds-button_icon-border-filled", onClick: this.onToggleObjectActions},
@@ -2197,9 +2196,6 @@ class RowTable extends React.Component {
               h("ul", {className: "slds-dropdown__list"},
                 h("li", {className: "slds-dropdown__item"},
                   h("a", {className: "table-settings-link", onClick: this.onCopyTable}, "Copy Table")
-                ),
-                h("li", {className: "slds-dropdown__item"},
-                  h("a", {className: "table-settings-link", onClick: this.onDownloadExcel}, "Download CSV")
                 ),
                 h("li", {className: "slds-dropdown__item"},
                   h("a", {className: "table-settings-link", onClick: this.onClickTableBorderSettings}, this.state.showOrHideBorders)
@@ -2617,9 +2613,6 @@ class ChildActionsCell extends React.Component {
           h("li", {className: "slds-dropdown__item"},
             h("a", {href: "about:blank", onClick: this.onOpenDetails}, "All relationship metadata")
           ),
-          row.queryListUrl() ? h("li", {className: "slds-dropdown__item"},
-            h("a", {href: row.queryListUrl(), title: "Export records in this related list"}, "Export related records")
-          ) : null,
           row.childSetupLinks && h("li", {className: "slds-dropdown__item"},
             h("a", {href: row.childSetupLinks.lightningSetupLink}, "Setup (Lightning)")
           ),

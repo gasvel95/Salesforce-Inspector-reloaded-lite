@@ -1252,7 +1252,7 @@ function FlowInfoSection(props) {
 }
 
 function ScanSummary(props) {
-  const {totalIssues, errorCount, warningCount, infoCount, onExportResults, onExpandAll, onCollapseAll, isStatItemClickable, onStatItemClick} = props;
+  const {totalIssues, errorCount, warningCount, infoCount, onExpandAll, onCollapseAll, isStatItemClickable, onStatItemClick} = props;
 
   // Pre-calculate clickable states to avoid repeated function calls
   const errorClickable = isStatItemClickable("error", errorCount);
@@ -1299,13 +1299,6 @@ function ScanSummary(props) {
         )
       ),
       h("div", {className: "summary-actions"},
-        h("button", {
-          className: "slds-button slds-button_brand slds-m-right_small",
-          title: "Export Results",
-          onClick: onExportResults,
-          disabled: totalIssues === 0
-        }, "Export",
-        ),
         h("button", {className: "slds-button slds-button_neutral slds-m-right_small", id: "expand-all-btn", onClick: onExpandAll}, "Expand All"),
         h("button", {className: "slds-button slds-button_neutral", id: "collapse-all-btn", onClick: onCollapseAll}, "Collapse All")
       )
@@ -1455,7 +1448,6 @@ class App extends React.Component {
     this.onAgentforceSend = this.onAgentforceSend.bind(this);
     this.onAgentforcePromptChange = this.onAgentforcePromptChange.bind(this);
     this.onToggleDescription = this.onToggleDescription.bind(this);
-    this.onExportResults = this.onExportResults.bind(this);
     this.onExpandAll = this.onExpandAll.bind(this);
     this.onCollapseAll = this.onCollapseAll.bind(this);
     this.onSeverityToggle = this.onSeverityToggle.bind(this);
@@ -1709,12 +1701,6 @@ class App extends React.Component {
       if (toggleLabel) {
         toggleLabel.textContent = isCollapsed ? "Show description" : "Hide description";
       }
-    }
-  }
-
-  onExportResults() {
-    if (this.flowScanner) {
-      this.flowScanner.handleExportClick();
     }
   }
 
@@ -2072,7 +2058,6 @@ class App extends React.Component {
         errorCount,
         warningCount,
         infoCount,
-        onExportResults: this.onExportResults,
         onExpandAll: this.onExpandAll,
         onCollapseAll: this.onCollapseAll,
         isStatItemClickable: this.isStatItemClickable.bind(this),
